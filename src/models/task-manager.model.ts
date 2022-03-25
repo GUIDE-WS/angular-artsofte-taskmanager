@@ -57,11 +57,24 @@ export class TaskManager {
      * Выполнить задачу по id
      * @param {number} taskId id задачи
      */
-    public completeTask(taskId: number) : void {
-        const currentTask : Task = this._tasks[taskId];
+    public completeTask(taskId: number): void {
+        const currentTask: Task = this._tasks[taskId];
         if (currentTask && !currentTask.isCompleted) {
             currentTask.isCompleted = true;
         }
+    }
+
+    // eslint-disable-next-line valid-jsdoc
+    /**
+     * Получение задачт по id. При неверном id выдает ошибку RangeError
+     * @param {number} taskId
+     */
+    public getTaskByID(taskId: number): Task {
+        const currentTask: Task = this._tasks[taskId];
+        if (currentTask) {
+            return currentTask;
+        }
+        throw new RangeError('Invalid task ID');
     }
 
     /**

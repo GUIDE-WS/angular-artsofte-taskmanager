@@ -98,6 +98,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "angular-artsofte-taskmanager:build:production",
+            "firebaseProject": "angular-artsofte-taskmanager",
+            "firebaseHostingSite": "guide-taskmanager"
+          }
         }
       }
     }

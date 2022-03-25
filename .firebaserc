@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "angular-artsofte-taskmanager"
+  },
+  "targets": {
+    "angular-artsofte-taskmanager": {
+      "hosting": {
+        "angular-artsofte-taskmanager": [
+          "guide-taskmanager"
+        ]
+      }
+    }
+  }
+}

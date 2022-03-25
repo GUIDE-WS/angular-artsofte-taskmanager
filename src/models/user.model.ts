@@ -2,9 +2,9 @@
  * Класс пользователя
  */
 export class User {
-    private _nickName: string;
-    private _email: string;
-    private _isConfirmed: boolean;
+    public nickName: string;
+    public email: string;
+    public isConfirmed: boolean;
 
     /**
      * @param {string} nickName Никнейм пользователя
@@ -13,18 +13,18 @@ export class User {
     constructor(
         nickName: string,
         email: string) {
-        this._nickName = nickName;
-        this._email = email;
-        this._isConfirmed = false;
+        this.nickName = nickName;
+        this.email = email;
+        this.isConfirmed = false;
     }
 
     /**
      * Изменить статус пользователя на подтвержденный
      */
     public confirmUser(): void {
-        if (this._isConfirmed) {
+        if (this.isConfirmed) {
             return;
         }
-        this._isConfirmed = true;
+        this.isConfirmed = true;
     }
 }
