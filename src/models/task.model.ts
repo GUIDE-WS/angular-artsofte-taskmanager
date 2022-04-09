@@ -1,9 +1,10 @@
 import { Priority } from './priority.enum';
+import { ITask } from './task.model.interface';
 
 /**
  * Класс задачи
  */
-export class Task {
+export class Task implements ITask{
     public name: string;
     public isCompleted: boolean = false;
     public description: string = '';

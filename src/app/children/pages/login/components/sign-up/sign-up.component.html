@@ -1,0 +1,35 @@
+<div class="main-container">
+    <div class="secondary-container">
+        <form [formGroup]="signUpForm" class="form-container">
+            <div>
+                <p>
+                    Регистрация
+                </p>
+            </div>
+
+            <div class="form-control">
+                <label for="nickName">nickname</label>
+                <input id="nickName" type="text" [formControlName]="'userNickName'">
+            </div>
+
+            <div class="form-control">
+                <label for="email">email</label>
+                <input id="email" type="email" [formControlName]="'userEmail'">
+            </div>
+
+
+            <div class="form-control">
+                <label for="password">password</label>
+                <input id="password" type="password" [formControlName]="'userPassword'">
+            </div>
+
+
+            <div class="form-control">
+                <button class="primary-btn" (click)="onSubmit()">Зарегистрироваться</button>
+            </div>
+        </form>
+        <div class="secondary-btn">
+            <button>Уже зарегистрированы?</button>
+        </div>
+    </div>
+</div>

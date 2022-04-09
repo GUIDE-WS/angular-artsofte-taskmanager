@@ -3,9 +3,6 @@
         "browser": true,
         "es2021": true
     },
-    "extends": [
-        "google"
-    ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": "latest",
@@ -18,7 +15,6 @@
     "rules": {
       "prefer-const": "error",
       "semi": "error",
-      "unused-imports/no-unused-imports": "warn",
       "padding-line-between-statements": [
         "error",
         {

@@ -1,0 +1,28 @@
+<div class="main-container">
+    <div class="secondary-container">
+        <form [formGroup]="signInForm" class="form-container">
+            <div>
+                <p>
+                    Авторизация
+                </p>
+            </div>
+
+            <div class="form-control">
+                <label for="email">email</label>
+                <input id="email" type="email" [formControlName]="'userEmail'">
+            </div>
+
+            <div class="form-control">
+                <label for="password">password</label>
+                <input id="password" type="password" [formControlName]="'userPassword'">
+            </div>
+
+            <div class="form-control">
+                <button class="primary-btn" (click)="onSubmit()">Войти</button>
+            </div>
+        </form>
+        <div class="secondary-btn">
+            <button>Зарегистрироваться</button>
+        </div>
+    </div>
+</div>
