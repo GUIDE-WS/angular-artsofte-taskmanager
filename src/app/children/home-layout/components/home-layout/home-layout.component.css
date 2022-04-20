@@ -1,0 +1,17 @@
+.home-container {
+    display: grid;
+    grid-template-columns: 1fr 9fr;
+    height: 100%
+}
+
+.home-navbar {
+    display: grid;
+    border-right: black 2px solid;
+    border-top: black 2px solid;
+    padding: 10% 10% 10%;
+}
+
+.home-content {
+    display: grid;
+    grid-template-rows: 0fr 1fr;
+}

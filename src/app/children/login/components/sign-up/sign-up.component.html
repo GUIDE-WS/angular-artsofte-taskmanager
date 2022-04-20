@@ -1,0 +1,44 @@
+<div class="main-container">
+    <div class="secondary-container">
+        <form [formGroup]="signUpForm" class="form-container">
+            <div>
+                <p>
+                    Регистрация
+                </p>
+            </div>
+
+            <div class="form-control">
+                <label for="nickName">nickname</label>
+                <input id="nickName" type="text" [formControlName]="'userNickName'">
+                <div class="form__error" *ngIf="signUpForm.controls['userNickName'].invalid && signUpForm.controls['userNickName'].touched">
+                    Обязательно для заполнения
+                </div>
+            </div>
+
+            <div class="form-control">
+                <label for="email">email</label>
+                <input id="email" type="email" [formControlName]="'userEmail'">
+                <div class="form__error" *ngIf="signUpForm.controls['userEmail'].invalid && signUpForm.controls['userEmail'].touched">
+                    Обязательно для заполнения или неверный формат email
+                </div>
+            </div>
+
+
+            <div class="form-control">
+                <label for="password">password</label>
+                <input id="password" type="password" [formControlName]="'userPassword'">
+                <div class="form__error" *ngIf="signUpForm.controls['userPassword'].invalid && signUpForm.controls['userPassword'].touched">
+                    Обязательно для заполнения
+                </div>
+            </div>
+
+
+            <div class="form-control">
+                <button class="primary-btn" [disabled]="signUpForm.invalid" (click)="onSubmit()">Зарегистрироваться</button>
+            </div>
+        </form>
+        <div class="secondary-btn">
+            <button [routerLink]="'../sign-in'" routerLinkActive="active">Уже зарегистрированы?</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+<div class="main-container">
+    <div class="secondary-container">
+        <form [formGroup]="signInForm" class="form-container">
+            <div>
+                <p>
+                    Авторизация
+                </p>
+            </div>
+
+            <div class="form-control">
+                <label for="email">email</label>
+                <input id="email" type="email" [formControlName]="'userEmail'">
+                <div class="form__error" *ngIf="signInForm.controls['userEmail'].invalid && signInForm.controls['userEmail'].touched">
+                    Обязательно для заполнения или неверный формат
+                </div>
+            </div>
+
+            <div class="form-control">
+                <label for="password">password</label>
+                <input id="password" type="password" [formControlName]="'userPassword'">
+                <div class="form__error" *ngIf="signInForm.controls['userPassword'].invalid && signInForm.controls['userPassword'].touched">
+                    Обязательно для заполнения
+                </div>
+            </div>
+
+            <div class="form-control">
+                <button class="primary-btn" [disabled]="signInForm.invalid" (click)="onSubmit()">Войти</button>
+            </div>
+        </form>
+        <div class="secondary-btn">
+            <button [routerLink]="'../sign-up'">Зарегистрироваться</button>
+        </div>
+    </div>
+</div>

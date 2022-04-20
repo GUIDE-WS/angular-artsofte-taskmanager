@@ -1,0 +1,62 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.secondary-container{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 60%;
+    border: 2px solid black ;
+    padding: 20px 20px 20px;
+}
+
+.form-container {
+    margin: 20px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+}
+
+.form-control {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.form-control input {
+    width: 100%;
+}
+
+
+.primary-btn {
+    width: 100%;
+
+}
+
+.secondary-btn{
+}
+
+input.ng-touched.ng-invalid{
+    border: solid red 2px;
+}
+
+input.ng-touched.ng-valid{
+    border: solid green 2px;
+}
+
+select.ng-touched.ng-invalid{
+    border: solid red 2px;
+}
+
+input.ng-touched.ng-valid{
+    border: solid green 2px;
+}

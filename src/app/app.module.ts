@@ -1,17 +1,31 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
-import { environment } from '../environments/environment';
-import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFireStorageModule } from '@angular/fire/compat/storage';
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LoginModule } from './children/pages/login/login.module';
+import { LoginModule } from './children/login/login.module';
 import { RouterModule, Routes } from '@angular/router';
+import {
+    HomeLayoutModule
+} from './children/home-layout/home-layout.module';
+import { IsAuthorizedGuard } from '../services/is-authorized.guard';
 
 const routers: Routes = [
-
+    {
+        path: '',
+        redirectTo: 'login',
+        pathMatch: 'full'
+    },
+    {
+        path: 'login',
+        loadChildren: (): Promise<LoginModule> => import ('./children/login/login.module')
+            .then((m: any) => m.LoginModule),
+    },
+    {
+        path: 'home',
+        loadChildren: (): Promise<HomeLayoutModule> => import('./children/home-layout/home-layout.module')
+            .then((m: any) => m.HomeLayoutModule),
+        canActivate: [IsAuthorizedGuard],
+    },
 ];
 
 @NgModule({
@@ -19,16 +33,11 @@ const routers: Routes = [
         AppComponent,
     ],
     imports: [
-        RouterModule,
-        LoginModule,
+        RouterModule.forRoot(routers),
         BrowserModule,
-        AngularFireModule.initializeApp(environment.firebase),
-        AngularFirestoreModule,
-        AngularFireStorageModule,
-        AngularFireDatabaseModule,
         BrowserAnimationsModule,
     ],
-    providers: [],
+    providers: [IsAuthorizedGuard],
     bootstrap: [AppComponent],
 })
 /**

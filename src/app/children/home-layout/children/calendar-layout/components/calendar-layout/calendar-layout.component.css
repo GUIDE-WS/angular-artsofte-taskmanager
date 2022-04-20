@@ -1,0 +1,15 @@
+.container{
+    display: grid;
+    grid-template-rows: 1fr 11fr;
+    height: 100%;
+}
+
+.up-nav-bar{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    border-top: black 2px solid;
+    border-bottom: black 2px solid;
+    padding-left: 2.5%;
+}
