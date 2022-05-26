@@ -7,6 +7,8 @@ import {
     CalendarLayoutComponent,
 } from './components/calendar-layout/calendar-layout.component';
 import { RouterModule, Routes } from '@angular/router';
+import { MonthFormatPipe } from './pipes/month-format.pipe';
+import { DayFormatPipe } from './pipes/day-format.pipe';
 
 const routes: Routes = [
     {
@@ -21,7 +23,7 @@ const routes: Routes = [
                 path: 'week',
                 component: WeekComponent,
             },
-        ]
+        ],
     },
 
 ];
@@ -33,6 +35,8 @@ const routes: Routes = [
         DayComponent,
         WeekComponent,
         CalendarLayoutComponent,
+        MonthFormatPipe,
+        DayFormatPipe,
     ],
     imports: [
         CommonModule,

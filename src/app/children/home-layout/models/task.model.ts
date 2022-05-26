@@ -1,10 +1,11 @@
 import { Priority } from './priority.enum';
-import { ITask } from './task.model.interface';
+import { ITask } from '../interfaces/task.interface';
 
 /**
  * Класс задачи
  */
 export class Task implements ITask{
+    public id: string = '0';
     public name: string;
     public isCompleted: boolean = false;
     public description: string = '';
@@ -16,10 +17,16 @@ export class Task implements ITask{
 
     /**
      * @constructor
-     * @param {string} name Название задачи. Обязательный параметр
+     * @param {ITask} data данные задачи
      */
-    constructor(name: string) {
-        this.name = name;
+    constructor(data: ITask) {
+        this.name = data.name;
+        this.description = data.description;
+        this.timeStart = data.timeStart;
+        this.timeEnd = data.timeEnd;
+        this.priority = data.priority;
+        this.tag = data.tag;
+        this.color = data.color;
     }
 }
 

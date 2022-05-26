@@ -1,6 +1,6 @@
 .container{
     display: grid;
-    grid-template-rows: 1fr 11fr;
+    grid-template-rows: 1fr 9fr;
     height: 100%;
 }
 
@@ -12,4 +12,6 @@
     border-top: black 2px solid;
     border-bottom: black 2px solid;
     padding-left: 2.5%;
+    width: 100%;
 }
+

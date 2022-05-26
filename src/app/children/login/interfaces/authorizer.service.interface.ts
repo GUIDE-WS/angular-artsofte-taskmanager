@@ -1,8 +1,10 @@
 import { IUser } from './user.interface';
+import { SignInModel } from '../models/sign-in.model';
+import { Observable } from 'rxjs';
 
 
 export interface IAuthorizer {
-    signIn(email: string, password: string): boolean;
-    signUp(userData: IUser): boolean;
+    signIn(model: SignInModel): Observable<boolean>;
+    signUp(userData: IUser): Observable<boolean>;
     signOut(): void;
 }

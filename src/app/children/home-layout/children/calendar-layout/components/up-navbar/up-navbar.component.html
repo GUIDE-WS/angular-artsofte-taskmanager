@@ -1,4 +1,9 @@
-<div class="up-nav-bar">
-    <p>up-navbar works!</p>
+<div class="up-nav-container">
+    <span class="up-nav-time">{{selectedDate | monthFormat}}</span>
+    <div class="up-nav-btn">
+        <a [routerLink]="'../new-task'">
+            <img class="up-nav-btn-icon" alt="Добавить задачу" src="assets/imgs/plus.png">
+        </a>
+    </div>
 </div>
 

@@ -1,0 +1,7 @@
+.color-slider {
+    width: 50px;
+    height: 150px;
+}
+.cursor-slider:hover {
+    cursor: pointer;
+}

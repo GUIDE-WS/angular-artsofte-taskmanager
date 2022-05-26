@@ -1,6 +1,6 @@
 <div class="main-container">
     <div class="secondary-container">
-        <form [formGroup]="signUpForm" class="form-container">
+        <form [formGroup]="viewModel.form" class="form-container">
             <div>
                 <p>
                     Регистрация
@@ -8,33 +8,33 @@
             </div>
 
             <div class="form-control">
-                <label for="nickName">nickname</label>
+                <label for="nickName">Ник</label>
                 <input id="nickName" type="text" [formControlName]="'userNickName'">
-                <div class="form__error" *ngIf="signUpForm.controls['userNickName'].invalid && signUpForm.controls['userNickName'].touched">
+                <div class="form__error" *ngIf="viewModel.form.controls['userNickName'].invalid && viewModel.form.controls['userNickName'].touched">
                     Обязательно для заполнения
                 </div>
             </div>
 
             <div class="form-control">
-                <label for="email">email</label>
+                <label for="email">Эл. почта</label>
                 <input id="email" type="email" [formControlName]="'userEmail'">
-                <div class="form__error" *ngIf="signUpForm.controls['userEmail'].invalid && signUpForm.controls['userEmail'].touched">
+                <div class="form__error" *ngIf="viewModel.form.controls['userEmail'].invalid && viewModel.form.controls['userEmail'].touched">
                     Обязательно для заполнения или неверный формат email
                 </div>
             </div>
 
 
             <div class="form-control">
-                <label for="password">password</label>
+                <label for="password">Пароль</label>
                 <input id="password" type="password" [formControlName]="'userPassword'">
-                <div class="form__error" *ngIf="signUpForm.controls['userPassword'].invalid && signUpForm.controls['userPassword'].touched">
+                <div class="form__error" *ngIf="viewModel.form.controls['userPassword'].invalid && viewModel.form.controls['userPassword'].touched">
                     Обязательно для заполнения
                 </div>
             </div>
 
 
             <div class="form-control">
-                <button class="primary-btn" [disabled]="signUpForm.invalid" (click)="onSubmit()">Зарегистрироваться</button>
+                <button type='submit' class="primary-btn" [disabled]="viewModel.form.invalid" (click)="onSubmit()">Зарегистрироваться</button>
             </div>
         </form>
         <div class="secondary-btn">

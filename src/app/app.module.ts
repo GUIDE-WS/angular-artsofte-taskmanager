@@ -5,16 +5,24 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginModule } from './children/login/login.module';
 import { RouterModule, Routes } from '@angular/router';
 import {
-    HomeLayoutModule
+    HomeLayoutModule,
 } from './children/home-layout/home-layout.module';
-import { IsAuthorizedGuard } from '../services/is-authorized.guard';
+import { IsAuthorizedGuard } from './services/is-authorized.guard';
+import { HttpService } from './modules/http-request/services/http.service';
+import {
+    HTTP_INTERCEPTORS,
+    HttpClient,
+    HttpClientModule,
+} from '@angular/common/http';
+import {
+    SessionStorageService
+} from './services/session-storage.service';
+import {
+    MockAuthorizeInterceptor
+} from './helpers/mock-authorize-interceptor.service';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 const routers: Routes = [
-    {
-        path: '',
-        redirectTo: 'login',
-        pathMatch: 'full'
-    },
     {
         path: 'login',
         loadChildren: (): Promise<LoginModule> => import ('./children/login/login.module')
@@ -26,18 +34,39 @@ const routers: Routes = [
             .then((m: any) => m.HomeLayoutModule),
         canActivate: [IsAuthorizedGuard],
     },
+    {
+        path: '**',
+        redirectTo: 'not-found',
+    },
+    {
+        path: 'not-found',
+        component: NotFoundComponent,
+        pathMatch: 'full'
+    }
 ];
 
 @NgModule({
     declarations: [
         AppComponent,
+        NotFoundComponent,
     ],
     imports: [
         RouterModule.forRoot(routers),
         BrowserModule,
         BrowserAnimationsModule,
+        HttpClientModule,
     ],
-    providers: [IsAuthorizedGuard],
+    providers: [
+        IsAuthorizedGuard,
+        HttpService,
+        HttpClient,
+        SessionStorageService,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: MockAuthorizeInterceptor,
+            multi: true,
+        }
+    ],
     bootstrap: [AppComponent],
 })
 /**

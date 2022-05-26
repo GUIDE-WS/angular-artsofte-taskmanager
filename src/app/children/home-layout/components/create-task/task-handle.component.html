@@ -1,0 +1,42 @@
+<div class="task-container">
+    <button appBackRouteButton class="back-button"><</button>
+    <div class="task-form-container" [formGroup]="viewModel.form">
+        <div class="form-control-row">
+            <label for="taskName" class="form-control">Название</label>
+            <div class="form-control">
+                <input id="taskName" type="text" [formControlName]="'taskName'">
+            </div>
+            <div class="form-control">
+                <select [formControlName]="'taskPriority'">
+                    <option *ngFor="let priority of priorities" [ngValue]="priority[0]">
+                        {{priority[1]}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="form-control-row">
+            <div class="form-control"><label>Интервал</label></div>
+            <div class="form-control">
+                <input id="taskTimeStart" type="datetime-local" [formControlName]="'taskTimeStart'">
+            </div>
+            <div class="form-control">
+                <input id="taskTimeEnd" type="datetime-local" [formControlName]="'taskTimeEnd'">
+            </div>
+        </div>
+        <div class="form-control">
+            <label for="taskDescription">Описание</label>
+            <textarea id="taskDescription" rows="5" [formControlName]="'taskDescription'"></textarea>
+        </div>
+        <div class="form-control">
+            <label for="taskTag">Тег</label>
+            <input id="taskTag" type="text" [formControlName]="'taskTag'">
+        </div>
+        <app-color-picker (submittedColor)="viewModel.taskColor = $event"></app-color-picker>
+    </div>
+    <div *ngIf="isEditMode; else createBlock">
+        <button (click)="editTask()">Сохранить изменения</button>
+    </div>
+    <ng-template #createBlock>
+        <button (click)="onSubmit()">Добавить</button>
+    </ng-template>
+</div>

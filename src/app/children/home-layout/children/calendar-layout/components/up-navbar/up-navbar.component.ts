@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
     selector: 'app-up-navbar',
@@ -6,6 +6,10 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./up-navbar.component.css'],
 })
 export class UpNavbarComponent implements OnInit {
+    @Output()
+    public selectedEmitDate: EventEmitter<Date> = new EventEmitter<Date>();
+
+    public selectedDate: Date = new Date();
 
     constructor() {
     }

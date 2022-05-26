@@ -1,15 +1,30 @@
-import { Priority } from './models/priority.enum';
+import { Priority } from './app/children/home-layout/models/priority.enum';
+import { ITask } from './app/children/home-layout/interfaces/task.interface';
+import { Md5 } from 'ts-md5';
 
-export const userState: any = {
+export interface IUserState {
+    [email: string]: {
+        password: string,
+        nickName: string,
+        successToken: string | null,
+        tasks: ITask[]
+    };
+}
+
+export const authAPIUrl: string = '/api/auth';
+
+export const userState: IUserState = {
     'guide@guide.com': {
-        password: '12345',
+        password: Md5.hashStr('12345'+'12345'),
         nickName: 'guide',
+        successToken: null,
         tasks: [
             {
+                id: '0',
                 name: 'test',
                 isCompleted: false,
                 description: '',
-                timeStart: Date.now(),
+                timeStart: null,
                 timeEnd: null,
                 priority: Priority.high,
                 tag: '',

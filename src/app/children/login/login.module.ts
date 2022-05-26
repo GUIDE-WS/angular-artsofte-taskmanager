@@ -31,12 +31,12 @@ const routes: Routes = [
         SignUpComponent,
     ],
     providers: [
-        MockUserAuthorizerService,
+        MockUserAuthorizerService
     ],
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        RouterModule.forChild(routes),
+        RouterModule.forChild(routes)
     ],
     exports: [
         RouterModule
