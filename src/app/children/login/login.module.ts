@@ -1,12 +1,14 @@
-import { NgModule } from '@angular/core';
+import { InjectionToken, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import {
-    MockUserAuthorizerService
+    MockUserAuthorizerService,
 } from './services/mock-user-authorizer.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+
+export const authorizerServiceToken: InjectionToken<string> = new InjectionToken('Authorizer service');
 
 const routes: Routes = [
     {
@@ -31,15 +33,18 @@ const routes: Routes = [
         SignUpComponent,
     ],
     providers: [
-        MockUserAuthorizerService
+        {
+            provide: authorizerServiceToken,
+            useClass: MockUserAuthorizerService,
+        },
     ],
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        RouterModule.forChild(routes)
+        RouterModule.forChild(routes),
     ],
     exports: [
-        RouterModule
+        RouterModule,
     ],
 })
 

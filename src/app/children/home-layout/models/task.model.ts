@@ -5,7 +5,7 @@ import { ITask } from '../interfaces/task.interface';
  * Класс задачи
  */
 export class Task implements ITask{
-    public id: string = '0';
+    public id: string;
     public name: string;
     public isCompleted: boolean = false;
     public description: string = '';
@@ -20,6 +20,7 @@ export class Task implements ITask{
      * @param {ITask} data данные задачи
      */
     constructor(data: ITask) {
+        this.id = data.id;
         this.name = data.name;
         this.description = data.description;
         this.timeStart = data.timeStart;

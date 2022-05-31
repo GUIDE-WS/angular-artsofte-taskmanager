@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import {
     MockUserAuthorizerService,
 } from '../../services/mock-user-authorizer.service';
@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { SignUpFormViewModel } from '../../view-models/sign-up-form.view-model';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { authorizerServiceToken } from '../../login.module';
+import { IAuthorizer } from '../../interfaces/authorizer.service.interface';
 
 @Component({
     selector: 'app-sign-up',
@@ -16,10 +18,11 @@ export class SignUpComponent implements OnInit, OnDestroy {
     public viewModel: SignUpFormViewModel = new SignUpFormViewModel();
 
     private _isRegistered: boolean = false;
-    private _unsubscriber: Subject<void> = new Subject<void>();
+    private _unsubscriber$: Subject<void> = new Subject<void>();
 
     constructor(
-        private _authService: MockUserAuthorizerService,
+        @Inject(authorizerServiceToken)
+        private _authService: IAuthorizer,
         private _router: Router,
     ) {
     }
@@ -28,8 +31,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        this._unsubscriber.next();
-        this._unsubscriber.complete();
+        this._unsubscriber$.next();
+        this._unsubscriber$.complete();
     }
 
 
@@ -37,7 +40,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
         this._authService
             .signUp(this.viewModel.toModel())
             .pipe(
-                takeUntil(this._unsubscriber),
+                takeUntil(this._unsubscriber$),
             )
             .subscribe((value: boolean) => {
                 this._isRegistered = value;

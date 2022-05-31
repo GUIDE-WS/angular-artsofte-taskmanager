@@ -1,11 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SignInFormViewModel } from '../../view-models/sign-in-form.view-model';
-import {
-    MockUserAuthorizerService
-} from '../../services/mock-user-authorizer.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { authorizerServiceToken } from '../../login.module';
+import { IAuthorizer } from '../../interfaces/authorizer.service.interface';
 
 @Component({
     selector: 'app-sign-in',
@@ -15,11 +14,12 @@ import { Subject } from 'rxjs';
 export class SignInComponent implements OnInit, OnDestroy {
     public viewModel: SignInFormViewModel = new SignInFormViewModel();
 
-    private _unsubscriber: Subject<void> = new Subject<void>();
+    private _unsubscriber$: Subject<void> = new Subject<void>();
     private _isAuthorized: boolean = false;
 
     constructor(
-        private _authService: MockUserAuthorizerService,
+        @Inject(authorizerServiceToken)
+        private _authService: IAuthorizer,
         private _router: Router,
     ) {
     }
@@ -28,15 +28,15 @@ export class SignInComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        this._unsubscriber.next();
-        this._unsubscriber.complete();
+        this._unsubscriber$.next();
+        this._unsubscriber$.complete();
     }
 
     public onSubmit(): void {
         this._authService
             .signIn(this.viewModel.toModel())
             .pipe(
-                takeUntil(this._unsubscriber),
+                takeUntil(this._unsubscriber$),
             )
             .subscribe((value: boolean) => {
                 this._isAuthorized = value;

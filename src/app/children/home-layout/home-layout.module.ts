@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { InjectionToken, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
     LeftNavbarComponent,
@@ -15,7 +15,7 @@ import { MockTaskSelectorService } from './services/mock-task-selector.service';
 import { MockTaskFactoryService } from './services/mock-task-factory.service';
 import {
     TaskHandleComponent,
-} from './components/create-task/task-handle.component';
+} from './components/task-handler/task-handle.component';
 import {
     BackRouteButtonDirective,
 } from './directives/back-route-button.directive';
@@ -23,7 +23,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {
     ColorPickerModule,
 } from '../../modules/color-picker/color-picker.module';
+import { MockTaskEditorService } from './services/mock-task-editor.service';
+import { ModalConfirmDirective } from './directives/modal-confirm.directive';
+import { ModalConfirmDialogComponent } from './components/modal-confirm-dialog/modal-confirm-dialog.component';
 
+export const taskSelectorToken: InjectionToken<string> = new InjectionToken<string>('Task selector service');
+export const taskFactoryToken: InjectionToken<string> = new InjectionToken<string>('Task factory service');
+export const taskEditorToken: InjectionToken<string> = new InjectionToken<string>('Task editor service');
 const routes: Routes = [
     {
         path: '',
@@ -62,10 +68,22 @@ const routes: Routes = [
         HomeLayoutComponent,
         TaskHandleComponent,
         BackRouteButtonDirective,
+        ModalConfirmDirective,
+        ModalConfirmDialogComponent,
     ],
     providers: [
-        MockTaskSelectorService,
-        MockTaskFactoryService,
+        {
+            provide: taskEditorToken,
+            useClass: MockTaskEditorService
+        },
+        {
+            provide: taskSelectorToken,
+            useClass: MockTaskSelectorService
+        },
+        {
+            provide: taskFactoryToken,
+            useClass: MockTaskFactoryService
+        },
     ],
     imports: [
         ColorPickerModule,

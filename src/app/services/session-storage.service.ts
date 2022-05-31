@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { IJWTSession } from '../children/login/interfaces/jwt-session.interface';
 
 @Injectable()
-export class SessionStorageService {
+export class SessionStorageService implements IStorageService{
     private _sessionData!: IJWTSession | null;
     private _sessionToken: string = 'session';
 
-    public getSessionData(): IJWTSession | null {
+    public getData(): IJWTSession | null {
         if (this._sessionData){
             return this._sessionData;
         } else {
@@ -21,13 +21,19 @@ export class SessionStorageService {
         }
     }
 
-    public setSessionData(data: IJWTSession): void {
+    public setData(data: IJWTSession): void {
         sessionStorage.setItem(this._sessionToken, JSON.stringify(data));
         this._sessionData = data;
     }
 
-    public removeSession(): void {
+    public removeData(): void {
         sessionStorage.removeItem(this._sessionToken);
         this._sessionData = null;
     }
+}
+
+export interface IStorageService {
+    getData() : IJWTSession | null;
+    setData(data: IJWTSession): void;
+    removeData(): void;
 }

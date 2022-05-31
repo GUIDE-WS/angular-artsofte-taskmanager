@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { InjectionToken, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -22,6 +22,7 @@ import {
 } from './helpers/mock-authorize-interceptor.service';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 
+export const dataStorageToken: InjectionToken<string> = new InjectionToken('Data storage service');
 const routers: Routes = [
     {
         path: 'login',
@@ -41,7 +42,8 @@ const routers: Routes = [
     {
         path: 'not-found',
         component: NotFoundComponent,
-        pathMatch: 'full'
+        canActivate: [IsAuthorizedGuard],
+        pathMatch: 'full',
     }
 ];
 
@@ -60,7 +62,10 @@ const routers: Routes = [
         IsAuthorizedGuard,
         HttpService,
         HttpClient,
-        SessionStorageService,
+        {
+            provide: dataStorageToken,
+            useClass: SessionStorageService
+        },
         {
             provide: HTTP_INTERCEPTORS,
             useClass: MockAuthorizeInterceptor,

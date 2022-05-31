@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { userState } from '../../userState';
 import {
     MockUserAuthorizerService
 } from '../children/login/services/mock-user-authorizer.service';

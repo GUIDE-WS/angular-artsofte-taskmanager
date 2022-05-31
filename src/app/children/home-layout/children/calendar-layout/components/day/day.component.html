@@ -1,10 +1,28 @@
 <div class="day-container">
     <table>
         <tr>
-            <th></th> <th>1, Пн</th>
-        </tr>
-        <tr>
-            <th></th><th><button (click)="viewTask('1')">Перейти на задачу 1</button></th>
+            <th class="left-td-time"></th>
+            <th>{{ selectedDate | dayFormat}}</th>
         </tr>
     </table>
+    <div class="task-table-body">
+        <table>
+            <tr>
+                <td class="left-td-time">
+                    <div class="border-time" *ngFor="let borderTime of borderTimes"
+                         [style]="borderTime.style">
+                        {{borderTime.time | borderTimeFormat}}
+                    </div>
+                </td>
+                <td>
+                    <div class="task-container" *ngFor="let tuple of tasks"
+                         [style]="tuple.style"
+                         (click)="viewTask(tuple.task.id)"
+                    >
+                        {{tuple.task.name}}
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>

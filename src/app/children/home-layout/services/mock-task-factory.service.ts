@@ -1,11 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { ITaskFactory } from '../interfaces/task-factory.interface';
 import { ITask } from '../interfaces/task.interface';
 import { Task } from '../models/task.model';
 import { userState } from '../../../../userState';
 import {
-    SessionStorageService
+    IStorageService
 } from '../../../services/session-storage.service';
+import { dataStorageToken } from '../../../app.module';
 
 @Injectable({
     providedIn: 'root',
@@ -13,13 +14,15 @@ import {
 export class MockTaskFactoryService implements ITaskFactory {
 
     constructor(
-        private _sessionStorageService: SessionStorageService,
+        @Inject(dataStorageToken)
+        private _storageService: IStorageService,
     ) {
     }
 
     public createTask(data: ITask): boolean {
+        debugger;
         const newTask: Task = new Task(data);
-        const email: string | undefined = this._sessionStorageService.getSessionData()?.email;
+        const email: string | undefined = this._storageService.getData()?.email;
         if (email !== undefined && userState[email] !== undefined) {
             newTask.id = userState[email].tasks.length.toString();
             userState[email].tasks.push(newTask);

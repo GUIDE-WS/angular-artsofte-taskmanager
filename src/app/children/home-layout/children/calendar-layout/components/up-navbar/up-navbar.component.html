@@ -1,5 +1,7 @@
 <div class="up-nav-container">
+    <button class="up-nav-btn" (click)="changeSelectedDay(selectedDate.getDate() - 1)"><</button>
     <span class="up-nav-time">{{selectedDate | monthFormat}}</span>
+    <button class="up-nav-btn" (click)="changeSelectedDay(selectedDate.getDate() + 1)">></button>
     <div class="up-nav-btn">
         <a [routerLink]="'../new-task'">
             <img class="up-nav-btn-icon" alt="Добавить задачу" src="assets/imgs/plus.png">

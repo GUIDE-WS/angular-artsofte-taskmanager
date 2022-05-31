@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { IAuthorizer } from '../interfaces/authorizer.service.interface';
 import { authAPIUrl } from '../../../../userState';
 import { SignInModel } from '../models/sign-in.model';
@@ -13,7 +13,7 @@ import {
 } from '../../../modules/http-request/services/http.service';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import {
-    SessionStorageService,
+    IStorageService
 } from '../../../services/session-storage.service';
 import {
     ISignInResponseModel,
@@ -28,6 +28,7 @@ import { ISignUpRequestModel } from '../request-models/sign-up.request-model';
 import {
     ISignUpResponseModel,
 } from '../response-models/sign-up.response-model';
+import { dataStorageToken } from '../../../app.module';
 
 @Injectable({
     providedIn: 'root',
@@ -37,7 +38,8 @@ export class MockUserAuthorizerService implements IAuthorizer {
     constructor(
         private _httpService: HttpService,
         private _httpClient: HttpClient,
-        private _sessionStorageService: SessionStorageService,
+        @Inject(dataStorageToken)
+        private _storageService: IStorageService,
     ) {
     }
 
@@ -54,7 +56,7 @@ export class MockUserAuthorizerService implements IAuthorizer {
                 switchMap(
                     (result: HttpResponse<ISignInResponseModel>) => {
                         if (result.body?.successToken) {
-                            this._sessionStorageService.setSessionData({
+                            this._storageService.setData({
                                 email: data.email,
                                 token: result.body.successToken,
                             });
@@ -88,7 +90,7 @@ export class MockUserAuthorizerService implements IAuthorizer {
     }
 
     public isValidToken(): Observable<boolean> {
-        const data: IJWTSession | null = this._sessionStorageService.getSessionData();
+        const data: IJWTSession | null = this._storageService.getData();
         if (!data) {
             return of(false);
         }
@@ -113,6 +115,6 @@ export class MockUserAuthorizerService implements IAuthorizer {
     }
 
     public signOut(): void {
-        this._sessionStorageService.removeSession();
+        this._storageService.removeData();
     }
 }

@@ -17,10 +17,22 @@
         <div class="form-control-row">
             <div class="form-control"><label>Интервал</label></div>
             <div class="form-control">
-                <input id="taskTimeStart" type="datetime-local" [formControlName]="'taskTimeStart'">
+                <div >
+                    <input id="taskTimeStart" type="datetime-local" [formControlName]="'taskTimeStart'">
+                </div>
+                <div class="form__error"
+                     *ngIf="viewModel.form.controls['taskTimeStart'].invalid && viewModel.form.controls['taskTimeStart'].touched">
+                    Обязательно для заполнения
+                </div>
             </div>
             <div class="form-control">
-                <input id="taskTimeEnd" type="datetime-local" [formControlName]="'taskTimeEnd'">
+                <div>
+                    <input id="taskTimeEnd" type="datetime-local" [formControlName]="'taskTimeEnd'">
+                </div>
+                <div class="form__error"
+                     *ngIf="viewModel.form.controls['taskTimeEnd'].invalid && viewModel.form.controls['taskTimeEnd'].touched">
+                    Обязательно для заполнения
+                </div>
             </div>
         </div>
         <div class="form-control">
@@ -33,10 +45,10 @@
         </div>
         <app-color-picker (submittedColor)="viewModel.taskColor = $event"></app-color-picker>
     </div>
-    <div *ngIf="isEditMode; else createBlock">
-        <button (click)="editTask()">Сохранить изменения</button>
+    <div class="form-control" *ngIf="isEditMode; else createBlock">
+        <button [disabled]="viewModel.form.invalid" (isConfirm)="isConfirm = $event" appModalConfirm (click)="editTask()">Сохранить изменения</button>
     </div>
     <ng-template #createBlock>
-        <button (click)="onSubmit()">Добавить</button>
+        <button [disabled]="viewModel.form.invalid" (click)="onSubmit()">Добавить</button>
     </ng-template>
 </div>

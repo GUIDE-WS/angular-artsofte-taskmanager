@@ -1,25 +1,25 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-    MockTaskFactoryService,
-} from '../../services/mock-task-factory.service';
+import { Component, Inject, OnInit } from '@angular/core';
 import { BackNavigationService } from '../../services/back-navigation.service';
 import { Priority } from '../../models/priority.enum';
 import { TaskFormViewModel } from '../../view-models/task-form-view-model';
-import { ActivatedRoute, ParamMap, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
-import {
-    MockTaskSelectorService,
-} from '../../services/mock-task-selector.service';
 import { ITask } from '../../interfaces/task.interface';
-import { MockTaskEditorService } from '../../services/mock-task-editor.service';
-import { takeUntil } from 'rxjs/operators';
+import {
+    taskEditorToken,
+    taskFactoryToken,
+    taskSelectorToken,
+} from '../../home-layout.module';
+import { ITaskFactory } from '../../interfaces/task-factory.interface';
+import { ITasksSelector } from '../../interfaces/tasks-selector.interface';
+import { ITaskEditor } from '../../interfaces/task-editor.interface';
 
 @Component({
-    selector: 'app-create-task',
+    selector: 'app-task-handler',
     templateUrl: './task-handle.component.html',
     styleUrls: ['./task-handle.component.css'],
 })
-export class TaskHandleComponent implements OnInit, OnDestroy {
+export class TaskHandleComponent implements OnInit {
 
     public viewModel: TaskFormViewModel = new TaskFormViewModel();
     public priorities: Array<[Priority, string]> = [
@@ -29,24 +29,23 @@ export class TaskHandleComponent implements OnInit, OnDestroy {
         [Priority.none, 'none'],
     ];
     public isEditMode: boolean;
+    public isConfirm: Subject<boolean>;
     private _isSuccess: boolean = false;
-    private _taskId: string | null;
-    private _unsubscriber: Subject<void> = new Subject<void>();
+    private readonly _taskId: string | null;
 
     constructor(
-        private _taskFactory: MockTaskFactoryService,
-        private _taskSelector: MockTaskSelectorService,
-        private _taskEditor: MockTaskEditorService,
+        @Inject(taskFactoryToken)
+        private _taskFactory: ITaskFactory,
+        @Inject(taskSelectorToken)
+        private _taskSelector: ITasksSelector,
+        @Inject(taskEditorToken)
+        private _taskEditor: ITaskEditor,
         private _backNavigation: BackNavigationService,
         private _activatedRoute: ActivatedRoute,
     ) {
         this.isEditMode = this._activatedRoute.snapshot.data['isEditMode'];
         if (this.isEditMode) {
-            this._activatedRoute.paramMap.pipe(
-                takeUntil(this._unsubscriber),
-            ).subscribe((map: ParamMap) => {
-                this._taskId = map.get('id')!;
-            });
+            this._taskId = this._activatedRoute.snapshot.paramMap.get('id');
         }
     }
 
@@ -61,11 +60,6 @@ export class TaskHandleComponent implements OnInit, OnDestroy {
         }
     }
 
-    public ngOnDestroy(): void {
-        this._unsubscriber.next();
-        this._unsubscriber.complete();
-    }
-
     public onSubmit(): void {
         this._isSuccess = this._taskFactory.createTask(this.viewModel.toModel());
         if (!this._isSuccess) {
@@ -76,11 +70,17 @@ export class TaskHandleComponent implements OnInit, OnDestroy {
     }
 
     public editTask(): void {
-        this._isSuccess = this._taskEditor.editTask(this.viewModel.toModel());
-        if (!this._isSuccess) {
-            alert('Oopsy daisy... Что-то пошло не так');
-        } else {
-            this._backNavigation.back();
-        }
+        this.isConfirm.subscribe(
+            (value: boolean) => {
+                if(value) {
+                    this._isSuccess = this._taskEditor.editTask(this.viewModel.toModel());
+                    if (!this._isSuccess) {
+                        alert('Oopsy daisy... Что-то пошло не так');
+                    } else {
+                        this._backNavigation.back();
+                    }
+                }
+            }
+        );
     }
 }

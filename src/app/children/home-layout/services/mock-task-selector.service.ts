@@ -1,23 +1,25 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { ITasksSelector } from '../interfaces/tasks-selector.interface';
 import { userState } from '../../../../userState';
 import { Task } from '../models/task.model';
 import { ITask } from '../interfaces/task.interface';
 import {
-    SessionStorageService
+    IStorageService
 } from '../../../services/session-storage.service';
+import { dataStorageToken } from '../../../app.module';
 
 @Injectable()
 export class MockTaskSelectorService implements ITasksSelector {
 
     constructor(
-        private _sessionStorageService: SessionStorageService,
+        @Inject(dataStorageToken)
+        private _storageService: IStorageService,
     ) {
     }
 
     public selectTasks(): ITask[] {
-        const email: string | null = sessionStorage.getItem('email');
-        if (email !== null && userState[email] !== undefined) {
+        const email: string | undefined = this._storageService.getData()?.email;
+        if (email !== undefined && userState[email] !== undefined) {
             const userTasks: Task[] = [];
             for (const task of userState[email].tasks) {
                 userTasks.push(new Task(task));
@@ -30,7 +32,7 @@ export class MockTaskSelectorService implements ITasksSelector {
     }
 
     public selectTaskByID(id: string): ITask | null {
-        const email: string | undefined = this._sessionStorageService.getSessionData()?.email;
+        const email: string | undefined = this._storageService.getData()?.email;
         console.log(sessionStorage);
         if (email !== undefined && userState[email] !== undefined) {
             for (const task of userState[email].tasks) {
